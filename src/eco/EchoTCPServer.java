@@ -1,10 +1,10 @@
-package Ejercicio_2;
+package eco;
 
 /*
  * EchoTCPServer
  * 
  * El objetivo de este programa es leer de la red un String enviada por un cliente y
- * hacer eco de ese mensaje enviándolo de nuevo al cliente.
+ * hacer eco de ese mensaje enviï¿½ndolo de nuevo al cliente.
  */
 
 import java.io.BufferedReader;
@@ -53,7 +53,7 @@ public class EchoTCPServer {
 				try {
 					createStreams();
 
-					// Ejecución del protocolo
+					// Ejecuciï¿½n del protocolo
 					ServerSideProtocol.protocol(reader, writer, clients);
 				} catch (IOException e) {
 					e.printStackTrace();

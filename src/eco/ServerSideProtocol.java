@@ -1,4 +1,4 @@
-package Ejercicio_2;
+package eco;
 
 import java.io.BufferedReader;
 import java.io.IOException;
