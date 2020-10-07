@@ -49,7 +49,7 @@ public class ServerSideProtocol {
 			answer = " ACCESO, Conexion numero " + clients.get(user) + " del usuario " + user ;
 		} else {
 			clients.put(user, 1);
-			answer = " BIENVENIDO, primera conexion al servidor de " + user;
+			answer = " BIENVENIDO OME GONONEA OME, primera conexion al servidor de " + user;
 		}
 		System.out.println(clients);
 		
