@@ -48,6 +48,7 @@ public class EchoTCPServer {
 				// Cuando el servidor recibe el contacto de un cliente, crea un
 				// nuevo socket, dedicado para atender ese cliente en
 				// particular.
+
 				serverSideSocket = listener.accept();
 
 				try {
