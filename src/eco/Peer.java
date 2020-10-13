@@ -34,64 +34,64 @@ public class Peer {
 		System.out.println("PEER CONNECTION ...");
 
 		try {
-//			peerSideSocket = new Socket(SERVER, PORT);
+			peerSideSocket = new Socket(SERVER, PORT);
 			
 			peerThread = new PeerThread(3401);
 			peerThread.start();
 			
-//			
-//			System.out.print("Presione una letra para continuar: ");
-//			String message = new Scanner(System.in).nextLine();
-//			
-//			message = String.format("LOGIN %s", message);
-//			
-//			System.out.println(message);
-//			
-//			String personas = "a";
-//
-//			// Envio del mensaje al servidor.
-//			writer.writeObject(personas);
-//			writer.flush();
-//
-//			// Lectura del mensaje que el servidor le envia al cliente.
-//			String receivedMessage = (String)reader.readObject();
-//
-//			// Impresion del mensaje recibido en la consola.
-//			System.out.println("FROM SERVER: " + receivedMessage);
-//			peerSideSocket.close();
+			writer = new ObjectOutputStream(peerSideSocket.getOutputStream());
+			reader = new ObjectInputStream(peerSideSocket.getInputStream());
 			
-			while(true) {
+			
+			System.out.print("Presione una letra para continuar: ");
+			String message = new Scanner(System.in).nextLine();
+			
+			message = String.format("LOGIN %s", message);
+			
+			System.out.println(message);
+			
+			String personas = "a";
+
+			// Envio del mensaje al servidor.
+			writer.writeObject(personas);
+			writer.flush();
+
+			// Lectura del mensaje que el servidor le envia al cliente.
+			String receivedMessage = (String)reader.readObject();
+
+			// Impresion del mensaje recibido en la consola.
+			System.out.println("FROM SERVER: " + receivedMessage);
+			peerSideSocket.close();
 				
-				transferListeningPort = 3402;
-				Socket peerSideSocket2;
-				
-				
-				
-				peerSideSocket2 = new Socket(SERVER, 3402);
-				
-				
-				writer = new ObjectOutputStream(peerSideSocket2.getOutputStream());
-				reader = new ObjectInputStream(peerSideSocket2.getInputStream());
-				
-				System.out.print("Presione una letra para continuar: ");
-				String message2 = new Scanner(System.in).nextLine();
-				
-				message2 = String.format("LOGIN %s", message2);
-				
-				System.out.println(message2);
-				
-				String personas2 = "a";
-				
-				// Envio del mensaje al servidor.
-				writer.writeObject(personas2);
-				writer.flush();
-				
-				// Lectura del mensaje que el servidor le envia al cliente.
-				String receivedMessage2 = (String)reader.readObject();
-				System.out.println("FROM SERVER: " + receivedMessage2);
-				
-				peerSideSocket2.close();
-			}
+			transferListeningPort = 3402;
+			Socket peerSideSocket2;
+			
+			
+			
+			peerSideSocket2 = new Socket(SERVER, 3402);
+			
+			
+			writer = new ObjectOutputStream(peerSideSocket2.getOutputStream());
+			reader = new ObjectInputStream(peerSideSocket2.getInputStream());
+			
+			System.out.print("Presione una letra para continuar: ");
+			String message2 = new Scanner(System.in).nextLine();
+			
+			message2 = String.format("LOGIN %s", message2);
+			
+			System.out.println(message2);
+			
+			String personas2 = "a";
+			
+			// Envio del mensaje al servidor.
+			writer.writeObject(personas2);
+			writer.flush();
+			
+			// Lectura del mensaje que el servidor le envia al cliente.
+			String receivedMessage2 = (String)reader.readObject();
+			System.out.println("FROM SERVER: " + receivedMessage2);
+			
+			peerSideSocket2.close();
 			//Protocols
 		}
 		// Puede lanzar una excepcion de host desconocido.
