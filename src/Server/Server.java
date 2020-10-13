@@ -3,6 +3,7 @@ package Server;
 import eco.ServerSideProtocol;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -34,12 +35,22 @@ public class Server {
                 System.out.println("LISTO PARA ESTABLECER COMUNICACIÓN");
 
                 serverSideSocket = listener.accept();
-                serverSideSocket.getInetAddress();
 
                 try {
                     createStreams();
-                    // Ejecuci�n del protocolo
-                } catch (IOException e) {
+                    String protocol = reader.readObject().toString().split("#")[0];
+
+                    if(protocol.equals("REQUEST")){
+
+                    }
+                    else if(protocol.equals("REGISTER")){
+                        InetSocketAddress peerIp = (InetSocketAddress)serverSideSocket.getRemoteSocketAddress();
+                        ArrayList<String> files = (ArrayList<String>) reader.readObject();
+                        ServerRegisterProtocol.register(index, files, writer, peerIp, getCurrPort());
+                    }
+                    System.out.println("Tamanio del indice luego de un registro"+index.size());
+
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -61,6 +72,12 @@ public class Server {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getCurrPort() {
+        String p = currPort+"";
+        currPort++;
+        return p;
     }
 
     private void createStreams() throws IOException {
