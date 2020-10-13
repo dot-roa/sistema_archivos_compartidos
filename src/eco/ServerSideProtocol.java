@@ -17,22 +17,22 @@ public class ServerSideProtocol {
 		System.out.println("Sent to client " + answer );
 		output.println(answer);
         
-		clientMessage = input.readLine();
-		System.out.println("From cliente message: " + clientMessage);
-		
-        if (clientMessage.equals("INFORME")) {
-			
-			answer = clients.keySet().toString(); 
-			System.out.println("Sent to client " + answer );
-			output.println(answer);
-			
-		} else if(clientMessage.equals("INFORME DETALLADO")) {
-			answer = clients.entrySet().toString(); 
-			System.out.println("Sent to client " + answer );
-			output.println(answer);
-		} else {
-			System.out.println("error en la palabra");
-		}
+//		clientMessage = input.readLine();
+//		System.out.println("From cliente message: " + clientMessage);
+//		
+//        if (clientMessage.equals("INFORME")) {
+//			
+//			answer = clients.keySet().toString(); 
+//			System.out.println("Sent to client " + answer );
+//			output.println(answer);
+//			
+//		} else if(clientMessage.equals("INFORME DETALLADO")) {
+//			answer = clients.entrySet().toString(); 
+//			System.out.println("Sent to client " + answer );
+//			output.println(answer);
+//		} else {
+//			System.out.println("error en la palabra");
+//		}
         
 
     }

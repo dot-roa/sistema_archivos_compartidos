@@ -23,6 +23,8 @@ public class EchoTCPClient {
 	private Socket clientSideSocket;
 	private PrintWriter writer;
 	private BufferedReader reader;
+	
+	
 
 	// Metodo constructor.
 	public EchoTCPClient() {
