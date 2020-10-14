@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class ServerRegisterProtocol {
     public static void register(HashMap <String,ArrayList<String>> index, ArrayList<String> files,
-                                ObjectOutputStream writer, InetSocketAddress peerIp, String currPort) throws IOException {
+                                ObjectOutputStream writer, String peerIp, String currPort) throws IOException {
         for(String file: files){
             if (index.get(file) == null){ //No existe el archivo
                 ArrayList<String> ips = new ArrayList<String>();

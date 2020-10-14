@@ -33,22 +33,25 @@ public class Server {
 
             while (true) {
                 System.out.println("LISTO PARA ESTABLECER COMUNICACIÓN");
-
                 serverSideSocket = listener.accept();
-
+                InetSocketAddress remote_ip = (InetSocketAddress)serverSideSocket.getRemoteSocketAddress();
+                String peerIp = (""+remote_ip).split(":")[0];
+                System.out.println("Desde: "+peerIp);
                 try {
                     createStreams();
                     String protocol = reader.readObject().toString().split("#")[0];
 
-                    if(protocol.equals("REQUEST")){
-
+                    if(protocol.equals("REQUEST")){                                             // PROTOCOLO DE INDICE
+                        String file = reader.readObject().toString();
+                        ServerRequestProtocol.findMatchedPeers(index, writer, file,2);
                     }
-                    else if(protocol.equals("REGISTER")){
-                        InetSocketAddress peerIp = (InetSocketAddress)serverSideSocket.getRemoteSocketAddress();
+                    else if(protocol.equals("REGISTER")){                                       //PROTOCOLO DE REGISTRO
+                        writer.writeObject("ACTUALIZANDO ARCHIVOS");
                         ArrayList<String> files = (ArrayList<String>) reader.readObject();
                         ServerRegisterProtocol.register(index, files, writer, peerIp, getCurrPort());
                     }
-                    System.out.println("Tamanio del indice luego de un registro"+index.size());
+             ;
+
 
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
