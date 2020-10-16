@@ -16,7 +16,6 @@ public class ServerRequestProtocol {
             matchedPeers = new ArrayList<>(lista.subList(0,npeers)); //SubLista (inicio,fin)
             System.out.println("Encontrados en sublista:"+matchedPeers);
         }
-        System.out.println(matchedPeers.getClass());
         System.out.println("PeersEncontrados:"+matchedPeers);
         if (matchedPeers == null){
             sendMessage(writer, "NO EXISTE EL ARCHIVO");

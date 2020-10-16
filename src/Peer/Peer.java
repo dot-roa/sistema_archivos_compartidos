@@ -1,5 +1,7 @@
 package Peer;
 
+import eco.PeerThread;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,13 +21,16 @@ public class Peer {
 	
 	private int transferListeningPort;
 	private int transferRequestingPort;
-	
+
 	private Socket peerSideSocket;
 	private ServerSocket listener;
-	
+
+	//Los del listener/Hilo
 	private ObjectOutputStream writer;
 	private ObjectInputStream reader;
-	
+
+
+	private PeerThread peerThread;
 	//private PeerThread peerThread;
 	
 	
@@ -36,47 +41,24 @@ public class Peer {
 		try {
 			peerSideSocket = new Socket(SERVER, PORT);
 			
-			//peerThread = new PeerThread(3401);
-			//peerThread.start();
-			
-			writer = new ObjectOutputStream(peerSideSocket.getOutputStream());
-			reader = new ObjectInputStream(peerSideSocket.getInputStream());
+			createStreams();
 			
 			
 			String message = new Scanner(System.in).nextLine();
-			if (message.equals("REGISTER")){
 			/*/System.out.println(message);
 			String personas = "a";*/
 
-				writer.writeObject(message);
+			transferListeningPort = PeerRegisterProtocol.protocol();
 
-				ArrayList<String> files = new ArrayList<String>();
-				files.add("reboñeñe.mp4");
-				files.add("lamento_boliviano.mp3");
-				files.add("cancun.jpg");
+			peerThread = new PeerThread(transferListeningPort);
+			peerThread.start();
+			peerSideSocket.close();
 
-				// Envio del mensaje al servidor.
-				writer.writeObject(files);
-				writer.flush();
+			while(true){
 
-				// Lectura del mensaje que el servidor le envia al cliente.
-				String receivedMessage = (String)reader.readObject();
-
-				// Impresion del mensaje recibido en la consola.
-				System.out.println("REGISTRADOS: " + receivedMessage);
-				peerSideSocket.close();
-
-			}
-			else if(message.equals("REQUEST")){
-				writer.writeObject(message);
-
-				writer.writeObject("cancun.jpg");
-				// Lectura del mensaje que el servidor le envia al cliente.
-				String receivedMessage = (String)reader.readObject().toString();
-
-				// Impresion del mensaje recibido en la consola.
-				System.out.println("IPS con el archivo solicitado: " + receivedMessage);
-				peerSideSocket.close();
+				peerSideSocket = new Socket(SERVER, PORT);
+				createStreams();
+				PeerClientProtocol.protocol();
 
 			}
 

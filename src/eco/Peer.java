@@ -65,9 +65,7 @@ public class Peer {
 				
 			transferListeningPort = 3402;
 			Socket peerSideSocket2;
-			
-			
-			
+
 			peerSideSocket2 = new Socket(SERVER, 3402);
 			
 			
