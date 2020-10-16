@@ -16,6 +16,8 @@ public class EchoTCPClient {
 	private Socket clientSideSocket;
 	private PrintWriter writer;
 	private BufferedReader reader;
+	
+	
 
 	public EchoTCPClient() {
 		System.out.println("ECHO TCP CLIENT ...");
