@@ -48,7 +48,7 @@ public class Peer {
 			/*/System.out.println(message);
 			String personas = "a";*/
 
-			transferListeningPort = PeerRegisterProtocol.protocol();
+			//transferListeningPort = PeerRegisterProtocol.protocol();
 
 			peerThread = new PeerThread(transferListeningPort);
 			peerThread.start();
@@ -58,7 +58,7 @@ public class Peer {
 
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
-				PeerClientProtocol.protocol();
+				//PeerClientProtocol.protocol();
 
 			}
 
@@ -71,10 +71,10 @@ public class Peer {
 		// Puede lanzar una excepcion de entrada y salida.
 		catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} // catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			//e.printStackTrace();
+		//}
 		// Finalmente se cierran los flujos y el socket.
 		finally {
 			try {

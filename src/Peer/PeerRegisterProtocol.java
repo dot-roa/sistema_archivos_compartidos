@@ -13,36 +13,43 @@ import java.util.Scanner;
 
 public class PeerRegisterProtocol {
 
-	public static String protocol(ObjectOutputStream output, ObjectInputStream input, ArrayList<String> files)
+	public static String protocol(ObjectOutputStream output, ObjectInputStream input)
 			throws IOException, ClassNotFoundException {
 		
+		// Ruta donde se ubica la carpeta que contiene los archivos que van a ser compartidos
 		String rutaCarpeta = "C:\\Users\\migue\\Downloads\\torrent pc";
 		System.out.print("Ingrese su nombre para ser registrado en el server: ");
 		String message = new Scanner(System.in).nextLine();
+		
+		// Se envia el nombre del peer para ser registrado en el Server
 		output.writeObject(message);
 		output.flush();
+		
+		// Se espera un tipo de respuesta como, envie sus archivos 
 		Object obj = (String) input.readObject();
 		System.out.println("Respuesta del server: " + obj);
 		System.out.println("Enviando Archivos ...");
-		
-		//////////////
+		////////////// Se recorre el directorio para obtener los nombres de los archivos que contiene
 
+		ArrayList<String> files = new ArrayList<String>();
 		try(DirectoryStream<Path> ds = Files.newDirectoryStream(Paths.get(rutaCarpeta))) {
 			
 			for(Path ruta : ds) {
-				System.out.println(ruta.getFileName());
+				files.add(ruta.getFileName().toString());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println(e.getStackTrace());
 		}
 		
-		////////////////
+		// Se envia un ArrayList<String> con los nombre de los archivos contenidos en el directorio 
 		output.writeObject(files);
 		output.flush();
-		obj = (String) input.readObject();
+		
+		// Se espera el retorno del puerto asignado por el Server
+		obj = (int) input.readObject();
 		System.out.println("Respuesta del server: " + obj);
-		return "3400";
+		// Se retorna en String el puerto asignado a este peer 
+		return obj+"";
 
 	}
 
