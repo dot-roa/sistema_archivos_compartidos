@@ -58,7 +58,7 @@ public class Peer {
 
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
-				PeerClientProtocol.protocol();
+				PeerClientProtocol.protocol(writer, reader, DOWNLOAD_FOLDER);
 
 			}
 

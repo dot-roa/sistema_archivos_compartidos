@@ -14,11 +14,11 @@ public class ServerRequestProtocol {
         ArrayList<String> matchedPeers = null;
         if (lista.size() > npeers){
             matchedPeers = new ArrayList<>(lista.subList(0,npeers)); //SubLista (inicio,fin)
-            System.out.println("Encontrados en sublista:"+matchedPeers);
+            //System.out.println("Encontrados en sublista:"+matchedPeers);
         }
-        System.out.println("PeersEncontrados:"+matchedPeers);
+        //System.out.println("PeersEncontrados:"+matchedPeers);
         if (matchedPeers == null){
-            sendMessage(writer, "NO EXISTE EL ARCHIVO");
+            sendMessage(writer, new ArrayList<String>() {{add("NO EXISTE EL ARCHIVO");}});
         }
         else{
             sendMessage(writer, matchedPeers);
