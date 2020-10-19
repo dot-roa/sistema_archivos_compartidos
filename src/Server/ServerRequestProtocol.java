@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ServerRequestProtocol {
-    public static void findMatchedPeers(HashMap<String,ArrayList<String>> index, ObjectOutputStream writer,
-                                        String file, int npeers) throws IOException {
+    public static void findMatchedPeers(HashMap<String, ArrayList<String>> index, ObjectOutputStream writer,
+                                        String file, int npeers, Integer solicitudesNoResueltas) throws IOException {
         System.out.println("Solicitando: "+file);
 
         List<String> lista = index.get(file); //Cast del Arraylist a Lista
@@ -29,7 +29,7 @@ public class ServerRequestProtocol {
         }
         else{
             sendMessage(writer, new ArrayList<String>() {{add("NO EXISTE EL ARCHIVO");}});
-
+            solicitudesNoResueltas++;
         }
         //System.out.println("PeersEncontrados:"+matchedPeers)
     }
