@@ -68,6 +68,7 @@ public class Peer2 {
 
 			}
 
+
 		}
 		// Puede lanzar una excepcion de host desconocido.
 		catch (UnknownHostException e) {

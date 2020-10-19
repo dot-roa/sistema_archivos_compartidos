@@ -13,8 +13,8 @@ public class Peer5 {
 	public static final int PORT = 3400;
 	public static final String SERVER = "localhost";
 
-	public static final String SHARE_FOLDER = "Origen/peer5";
-	public static final String DOWNLOAD_FOLDER = "Destino/peer5";
+	public static final String SHARE_FOLDER = "Compartida/peer5";
+	public static final String DOWNLOAD_FOLDER = "Descargas/peer5";
 
 	private int transferListeningPort;
 	private int transferRequestingPort;
@@ -36,6 +36,10 @@ public class Peer5 {
 		System.out.println("PEER CONNECTION ...");
 
 		try {
+			System.out.print("Ingrese su nombre: ");
+			String peerName = new Scanner(System.in).nextLine();
+			System.out.println(String.format("BIENVENIDO %s",peerName.toUpperCase()));
+
 			peerSideSocket = new Socket(SERVER, PORT);
 			
 			createStreams();

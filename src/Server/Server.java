@@ -93,7 +93,9 @@ public class Server {
     }
 
     private void addSolicitudPorTipoArchivo(String file) {
-        String ext = file.split(".")[1];
+        System.out.println("FILEEEE "+file);
+        String ext = file.split("\\.")[1];
+
         if(solicitudesPorTipoArchivo.get(ext) == null){
             solicitudesPorTipoArchivo.put(ext,1);
         }
