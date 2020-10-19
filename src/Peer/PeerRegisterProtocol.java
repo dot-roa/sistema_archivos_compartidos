@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class PeerRegisterProtocol {
 
-	public static String protocol(ObjectOutputStream output, ObjectInputStream input)
+	public static int protocol(ObjectOutputStream output, ObjectInputStream input)
 			throws IOException, ClassNotFoundException {
 		
 		// Ruta donde se ubica la carpeta que contiene los archivos que van a ser compartidos
@@ -46,10 +46,10 @@ public class PeerRegisterProtocol {
 		output.flush();
 		
 		// Se espera el retorno del puerto asignado por el Server
-		obj = (int) input.readObject();
+		int puerto = (int) input.readObject();
 		System.out.println("Respuesta del server: " + obj);
 		// Se retorna en String el puerto asignado a este peer 
-		return obj+"";
+		return puerto;
 
 	}
 

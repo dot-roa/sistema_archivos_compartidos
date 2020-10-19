@@ -35,7 +35,7 @@ public class Peer {
 	
 	
 	// Metodo constructor.
-	public Peer() {
+	public Peer() throws ClassNotFoundException {
 		System.out.println("PEER CONNECTION ...");
 
 		try {
@@ -48,7 +48,7 @@ public class Peer {
 			/*/System.out.println(message);
 			String personas = "a";*/
 
-			//transferListeningPort = PeerRegisterProtocol.protocol();
+			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader);
 
 			peerThread = new PeerThread(transferListeningPort);
 			peerThread.start();
@@ -93,8 +93,10 @@ public class Peer {
 	 }
 
 	
-	// Este metodo se encarga de conectar los flujos de entrada y salida de
-	// caracteres con el socket que ha establecido conexion con el servidor.
+	/** Este metodo se encarga de conectar los flujos de entrada y salida de
+	/* caracteres con el socket que ha establecido conexion con el servidor.
+	 * @throws IOException
+	 */
 	private void createStreams() throws IOException {
 		// Creacion del flujo de salida de datos al cual se le conecta el flujo
 		// salida del socket. Este flujo de salida de datos se utiliza para
@@ -111,8 +113,9 @@ public class Peer {
 		
 	/**
 	 * Metodo principal de la aplicacion.
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ClassNotFoundException {
 		new Peer();
 	}
 	
