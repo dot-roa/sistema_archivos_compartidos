@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class PeerServerProtocol {
 
-	public static void protocol(ObjectOutputStream output, ObjectInputStream input, BufferedOutputStream toNetwork,
-			ArrayList<String> files) throws IOException, ClassNotFoundException {
+	public static void protocol(ObjectOutputStream output, 
+			ObjectInputStream input, BufferedOutputStream toNetwork) throws IOException, ClassNotFoundException {
 
 		Object obj = (String) input.readObject();
 		System.out.println("Nombre del archivo solicitado: " + obj);
@@ -20,6 +20,7 @@ public class PeerServerProtocol {
 		//poner la ruta donde esten guardados los archivos
 		File localFile = new File("C:\\Users\\migue\\eclipse-workspace\\Origen\\" + obj);
 		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
+		
 		long size = localFile.length();
 
 		System.out.println(size);

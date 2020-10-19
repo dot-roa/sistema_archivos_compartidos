@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Peer.PeerThread;
+
 public class Peer {
 	
 	public static final int PORT = 3400;

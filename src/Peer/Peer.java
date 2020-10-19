@@ -1,7 +1,5 @@
 package Peer;
 
-import eco.PeerThread;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,7 +46,7 @@ public class Peer {
 			/*/System.out.println(message);
 			String personas = "a";*/
 
-			transferListeningPort = PeerRegisterProtocol.protocol();
+//			transferListeningPort = PeerRegisterProtocol.protocol();
 
 			peerThread = new PeerThread(transferListeningPort);
 			peerThread.start();
@@ -58,7 +56,7 @@ public class Peer {
 
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
-				PeerClientProtocol.protocol();
+//				PeerClientProtocol.protocol();
 
 			}
 
@@ -70,9 +68,6 @@ public class Peer {
 		}
 		// Puede lanzar una excepcion de entrada y salida.
 		catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// Finalmente se cierran los flujos y el socket.
