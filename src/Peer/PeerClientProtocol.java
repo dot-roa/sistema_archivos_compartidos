@@ -21,7 +21,7 @@ public class PeerClientProtocol {
 	private static String file;
 
 
-	public static String protocol(ObjectOutputStream output, ObjectInputStream input, String reqFile, String d_folder)
+	public static void protocol(ObjectOutputStream output, ObjectInputStream input, String reqFile, String d_folder)
 			throws IOException, ClassNotFoundException {
 
 		download_folder = d_folder;
@@ -36,16 +36,18 @@ public class PeerClientProtocol {
 				System.out.println(String.format("CONECTANDO a [%s]",ipServerPeer ));
 				server = ipServerPeer.split(":")[0];
 				transferRequestingPort = Integer.parseInt(ipServerPeer.split(":")[1]);
-				requestFile();
+				boolean succes =  requestFile();
+
+				if (succes) break;
+
 			}
 
 		}
 
-		return "3400";
 		
 	}
 
-	private static void requestFile()  {
+	private static boolean requestFile()  {
 
 		try {
 			clientSideSocket = new Socket(server, transferRequestingPort);
@@ -57,31 +59,38 @@ public class PeerClientProtocol {
 			toFile = new BufferedOutputStream(new FileOutputStream(file));
 
 
-			long size = (long) fileTransferReader.readObject();
-			// se recibe el archivo en bloques de 512 bytes
-			byte[] receivedData = new byte[512];
-			int in;
-			long remainder = size;
-			while ((in = fromNetwork.read(receivedData)) != -1) {
-				toFile.write(receivedData, 0, in);
-				remainder -= in;
-				if (remainder == 0)
-					break;
-			}
-			toFile.close();
-			fileTransferReader.close();
-			fileTransferWriter.close();
-			fromNetwork.close();
+			String msg = (String) fileTransferReader.readObject();
+			String key = msg.split(":")[0];
 
+			if(key.equals("404")) System.out.println(msg);
+			else {
+				long size = Long.parseLong(msg.split(":")[1]);
+				// se recibe el archivo en bloques de 512 bytes
+				byte[] receivedData = new byte[512];
+				int in;
+				long remainder = size;
+				while ((in = fromNetwork.read(receivedData)) != -1) {
+					toFile.write(receivedData, 0, in);
+					remainder -= in;
+					if (remainder == 0)
+						break;
+				}
+				toFile.close();
+				fileTransferReader.close();
+				fileTransferWriter.close();
+				fromNetwork.close();
+				clientSideSocket.close();
+			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("No se pudo Establecer Conexión con el Peer ");
+			System.out.println(String.format("No se pudo Establecer Conexión con el Peer [%s:%s]",server,transferRequestingPort));
+			return false;
 		}
 		catch(IOException e){
-			e.printStackTrace();
-			System.out.println("Fallo en la Transmisión");
+			System.out.println(String.format("Fallo en la Transmisión con el Peer [%s:%s]",server,transferRequestingPort));
+			return false;
 		}
-
+		System.out.println(String.format("Transferencia Exitosa de %s GG!",file));
+		return true;
 
 	}
 

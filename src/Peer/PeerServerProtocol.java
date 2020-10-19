@@ -17,24 +17,27 @@ public class PeerServerProtocol {
 			ObjectInputStream input, BufferedOutputStream toNetwork, String originFolder) throws IOException, ClassNotFoundException {
 		
 		String fileName = (String) input.readObject();
-		System.out.println("Nombre del archivo solicitado: " + fileName);
 
 		File localFile = new File(originFolder+File.separator+fileName);
-		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
+		if (localFile.exists())
+		{
+			BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
+			output.writeObject("LENGTH:"+localFile.length());
+			output.flush();
 
-		output.writeObject(localFile.length());
-		output.flush();
+			byte[] byteArray = new byte[512];
+			int in;
+			while ((in = fromFile.read(byteArray)) != -1) {
+				toNetwork.write(byteArray, 0, in);
+			}
 
-		byte[] byteArray = new byte[512];
-		int in;
-		while ((in = fromFile.read(byteArray)) != -1) {
-			toNetwork.write(byteArray, 0, in);
+			toNetwork.flush();
+			fromFile.close();
+		}
+		else{
+			output.writeObject("404:El archivo ya no esta diponible");
 		}
 
-		System.out.println("Transferencia finalizada");
-
-		toNetwork.flush();
-		fromFile.close();
 
 	}
 

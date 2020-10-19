@@ -1,7 +1,5 @@
 package Server;
 
-import eco.ServerSideProtocol;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -12,7 +10,7 @@ import java.util.HashMap;
 public class Server {
 
     public static final int PORT = 3400;
-    public static int currPort = 2000;
+    public static int currPort = 2001;
 
     private ObjectOutputStream writer;
     private ObjectInputStream reader;
