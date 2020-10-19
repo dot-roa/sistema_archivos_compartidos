@@ -1,5 +1,9 @@
-package eco;
+package Peer;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,7 +21,7 @@ public class PeerThread extends Thread {
 	private Socket serverSideSocket;
 	private ObjectOutputStream writer;
 	private ObjectInputStream reader;
-	private HashMap<String, Integer> clients;
+	private BufferedOutputStream toNetwork;
 	
 	public PeerThread(int port) {
 		this.port = port;
@@ -27,8 +31,6 @@ public class PeerThread extends Thread {
 	
 	public void run() {
 		System.out.println("ECHO TCP SERVER in thread[port " + port + "]...");
-
-		clients = new HashMap<String, Integer>();
 		
 		try {
 			// Creacion del socket de servidor. Debe especificar el numero de
@@ -52,20 +54,7 @@ public class PeerThread extends Thread {
 					
 					System.out.println("Connection incoming ...");
 
-					// Lectura del mensaje que el cliente le envia al servidor.
-					String clientMessage = (String)reader.readObject();
-
-					System.out.println("From client: " + clientMessage);
-
-					// Procesamiento de la informacion que el cliente ha enviado
-					// al servidor.
-					String answer = "OK";
-
-					System.out.println("Sent to client: " + answer);
-
-					// Envio del mensaje al cliente.
-					writer.writeObject(answer);
-					writer.flush();
+					PeerServerProtocol.protocol(writer, reader, toNetwork);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
@@ -103,6 +92,10 @@ public class PeerThread extends Thread {
 		// socket. Este flujo de entrada se utiliza para leer un flujo
 		// de caractere que viene del servidor.
 		reader = new ObjectInputStream(serverSideSocket.getInputStream());
+		
+		
+		toNetwork = new BufferedOutputStream(serverSideSocket.getOutputStream());
+		
 	}
 	
 	public void setStop(boolean stop) {
