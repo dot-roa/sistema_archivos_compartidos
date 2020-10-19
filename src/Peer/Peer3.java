@@ -53,11 +53,14 @@ public class Peer3 {
 
 				System.out.print("Ingrese el nombre del archivo que necesita: ");
 				String reqFile = new Scanner(System.in).nextLine();
+				
+				System.out.print("Ingrese cantidad de peers para buscar: ");
+				int numPeers = new Scanner(System.in).nextInt();
 
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
 
-				PeerClientProtocol.protocol(writer, reader, reqFile, DOWNLOAD_FOLDER);
+				PeerClientProtocol.protocol(writer, reader, reqFile, numPeers, DOWNLOAD_FOLDER);
 
 			}
 

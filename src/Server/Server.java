@@ -42,7 +42,10 @@ public class Server {
                     if(protocol.equals("REQUEST")){                                             // PROTOCOLO DE INDICE
                         System.out.println("Solicitud de indice desde:"+peerIp);
                         String file = reader.readObject().toString();
-                        ServerRequestProtocol.findMatchedPeers(index, writer, file,2);
+                        int numberPeers = (int) reader.readObject();
+                        
+                        System.out.println("El numero de peer a buscar se fijo a: " + numberPeers); 
+                        ServerRequestProtocol.findMatchedPeers(index, writer, file, numberPeers);
                     }
                     else if(protocol.equals("REGISTER")){                                       //PROTOCOLO DE REGISTRO
                         writer.writeObject("REGISTRANDO ARCHIVOS");
