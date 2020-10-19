@@ -21,10 +21,11 @@ public class PeerClientProtocol {
 	private static String file;
 
 
-	public static String protocol(ObjectOutputStream output, ObjectInputStream input, String d_folder)
+	public static String protocol(ObjectOutputStream output, ObjectInputStream input, String reqFile, String d_folder)
 			throws IOException, ClassNotFoundException {
 
 		download_folder = d_folder;
+		file = reqFile;
 		ArrayList<String> matchedPeers = requestMatchedPeers(output, input);
 		String firstPos = matchedPeers.get(0);
 		if(firstPos.equals("NO EXISTE EL ARCHIVO"))
@@ -49,9 +50,7 @@ public class PeerClientProtocol {
 
 		try {
 			clientSideSocket = new Socket(server, transferRequestingPort);
-
 			file = download_folder+File.separator +file;
-
 
 			createStreams(); // Crea los streams con el peer que tiene el archivo
 
@@ -81,8 +80,7 @@ public class PeerClientProtocol {
 	}
 
 	private static ArrayList<String> requestMatchedPeers(ObjectOutputStream output, ObjectInputStream input) throws IOException, ClassNotFoundException {
-		System.out.print("Ingrese el nombre del archivo que necesita: ");
-		file = new Scanner(System.in).nextLine();
+		output.writeObject("REQUEST");
 		output.writeObject(file);
 		output.flush();
 		System.out.print("Buscando Peers que tengan el archivo...");

@@ -42,23 +42,42 @@ public class Peer {
 			peerSideSocket = new Socket(SERVER, PORT);
 			
 			createStreams();
-			
-			
-			String message = new Scanner(System.in).nextLine();
-			/*/System.out.println(message);
-			String personas = "a";*/
 
-			transferListeningPort = PeerRegisterProtocol.protocol();
+			System.out.println("POR FAVOR ESPERE...");
+			writer.writeObject("REGISTER");
+			System.out.println(reader.readObject().toString());
 
-			peerThread = new PeerThread(transferListeningPort);
-			peerThread.start();
+			//transferListeningPort = PeerRegisterProtocol.protocol();
+
+			ArrayList<String> files = new ArrayList<String>();
+			files.add("reboñeñe.mp4");
+			files.add("lamento_boliviano.mp3");
+			files.add("cancun.jpg");
+
+			// Envio del mensaje al servidor.
+			writer.writeObject(files);
+			writer.flush();
+
+			// Lectura del mensaje que el servidor le envia al cliente.
+			String receivedMessage = (String)reader.readObject();
+
+			// Impresion del mensaje recibido en la consola.
+			System.out.println("PUERTO ASIGNADO: " + receivedMessage);
 			peerSideSocket.close();
+
+
+			//peerThread = new PeerThread(transferListeningPort);
+			//peerThread.start();
+			//peerSideSocket.close();
 
 			while(true){
 
+				System.out.print("Ingrese el nombre del archivo que necesita: ");
+				String reqFile = new Scanner(System.in).nextLine();
+
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
-				PeerClientProtocol.protocol(writer, reader, DOWNLOAD_FOLDER);
+				PeerClientProtocol.protocol(writer, reader, reqFile, DOWNLOAD_FOLDER);
 
 			}
 
