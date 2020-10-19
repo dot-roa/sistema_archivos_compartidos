@@ -82,7 +82,7 @@ public class PeerClientProtocol {
 		output.writeObject("REQUEST");
 		output.writeObject(file);
 		output.flush();
-		System.out.print("Buscando Peers que tengan el archivo...");
+		System.out.println("Buscando Peers que tengan el archivo...");
 		ArrayList<String> matchedPeers = (ArrayList<String>) input.readObject();
 
 		return matchedPeers;

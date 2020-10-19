@@ -30,7 +30,7 @@ public class PeerThread extends Thread {
 	
 	
 	public void run() {
-		System.out.println("ECHO TCP SERVER in thread[port " + port + "]...");
+		//System.out.println("ECHO TCP SERVER in thread[port " + port + "]...");
 		
 		try {
 			// Creacion del socket de servidor. Debe especificar el numero de
@@ -41,7 +41,7 @@ public class PeerThread extends Thread {
 			// uno a la vez. El servidor va a prestar un mismo servicio a cada
 			// cliente.
 			while(!stop) {
-				System.out.println("The ECHO TCP SERVER is waiting for a client....");
+				//System.out.println("The ECHO TCP SERVER is waiting for a client....");
 				// El servidor queda bloqueado esperando una conexion de un
 				// cliente.
 				// Cuando el servidor recibe el contacto de un cliente, crea un
@@ -52,7 +52,7 @@ public class PeerThread extends Thread {
 				try {
 					createStreams();
 					
-					System.out.println("Connection incoming ...");
+					//System.out.println("Connection incoming ...");
 
 					PeerServerProtocol.protocol(writer, reader, toNetwork);
 				} catch (IOException e) {

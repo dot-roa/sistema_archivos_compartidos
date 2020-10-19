@@ -7,30 +7,30 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class PeerServerProtocol {
 
 	public static void protocol(ObjectOutputStream output, 
 			ObjectInputStream input, BufferedOutputStream toNetwork) throws IOException, ClassNotFoundException {
-
-		Object obj = (String) input.readObject();
-		System.out.println("Nombre del archivo solicitado: " + obj);
-
-		//poner la ruta donde esten guardados los archivos
-		File localFile = new File("Origen" +File.separator + obj);
-		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
 		
-		long size = localFile.length();
+		String fileName = (String) input.readObject();
+		System.out.println("Nombre del archivo solicitado: " + fileName);
 
-		System.out.println(size);
+		File localFile = new File("Origen"+File.separator+fileName);
+		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
 
-		output.writeObject("Size:" + size);
+
 		byte[] byteArray = new byte[512];
 		int in;
 		while ((in = fromFile.read(byteArray)) != -1) {
 			toNetwork.write(byteArray, 0, in);
 		}
+
+		System.out.println("Transferencia finalizada");
+
 		toNetwork.flush();
 		fromFile.close();
 
