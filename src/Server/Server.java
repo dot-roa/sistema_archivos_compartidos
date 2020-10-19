@@ -26,7 +26,9 @@ public class Server {
     public Server() {
         System.out.println("SERVIDOR INDICE ...");
         index = new HashMap<String, ArrayList<String>>();
-
+        solicitudesPorCliente = new HashMap<String, Integer>();
+        solicitudesPorTipoArchivo = new HashMap<String, Integer>();
+        solicitudesNoResueltas = 0;
         try {
 
             listener = new ServerSocket(PORT);
@@ -43,11 +45,14 @@ public class Server {
                     String protocol = reader.readObject().toString();
 
                     if(protocol.equals("REQUEST")){ // PROTOCOLO DE INDICE
-                        addSolicitudPorCliente(peerIp);
                         System.out.println("Solicitud de indice desde:"+peerIp);
                         String file = reader.readObject().toString();
+
+                        int numberPeers = (int) reader.readObject();
+                        System.out.println("El numero de peer a buscar se fijo a: " + numberPeers);
+                        ServerRequestProtocol.findMatchedPeers(index, writer, file, numberPeers, solicitudesNoResueltas);
+                        addSolicitudPorCliente(peerIp);
                         addSolicitudPorTipoArchivo(file);
-                        ServerRequestProtocol.findMatchedPeers(index, writer, file,2, solicitudesNoResueltas);
                     }
                     else if(protocol.equals("REGISTER")){                                       //PROTOCOLO DE REGISTRO
                         addSolicitudPorCliente(peerIp);
