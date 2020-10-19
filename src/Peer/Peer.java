@@ -40,13 +40,10 @@ public class Peer {
 			peerSideSocket = new Socket(SERVER, PORT);
 			
 			createStreams();
-			
-			
-			String message = new Scanner(System.in).nextLine();
-			/*/System.out.println(message);
-			String personas = "a";*/
 
 			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader);
+
+			peerSideSocket.close();
 
 
 			peerThread = new PeerThread(transferListeningPort);
@@ -55,11 +52,13 @@ public class Peer {
 
 			while(true){
 
+				System.out.print("Ingrese el nombre del archivo que necesita: ");
+				String reqFile = new Scanner(System.in).nextLine();
+
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
 
-				//PeerClientProtocol.protocol();
-
+				PeerClientProtocol.protocol(writer, reader, reqFile, DOWNLOAD_FOLDER);
 
 			}
 

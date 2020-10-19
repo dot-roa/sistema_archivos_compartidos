@@ -18,7 +18,7 @@ public class PeerServerProtocol {
 		System.out.println("Nombre del archivo solicitado: " + obj);
 
 		//poner la ruta donde esten guardados los archivos
-		File localFile = new File("C:\\Users\\migue\\eclipse-workspace\\Origen\\" + obj);
+		File localFile = new File("Origen" +File.separator + obj);
 		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
 		
 		long size = localFile.length();
