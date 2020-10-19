@@ -42,6 +42,7 @@ public class Server {
                     String protocol = reader.readObject().toString();
 
                     if(protocol.equals("REQUEST")){                                             // PROTOCOLO DE INDICE
+                        System.out.println("Solicitud de indice desde:"+peerIp);
                         String file = reader.readObject().toString();
                         ServerRequestProtocol.findMatchedPeers(index, writer, file,2);
                     }

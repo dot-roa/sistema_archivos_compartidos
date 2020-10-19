@@ -38,8 +38,8 @@ public class Peer {
 		try {
 			peerSideSocket = new Socket(SERVER, PORT);
 			
-			peerThread = new PeerThread(3401);
-			peerThread.start();
+			//peerThread = new PeerThread(3401);
+			//peerThread.start();
 			
 			writer = new ObjectOutputStream(peerSideSocket.getOutputStream());
 			reader = new ObjectInputStream(peerSideSocket.getInputStream());

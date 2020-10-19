@@ -22,9 +22,12 @@ public class PeerThread extends Thread {
 	private ObjectOutputStream writer;
 	private ObjectInputStream reader;
 	private BufferedOutputStream toNetwork;
+
+	private String originFolder;
 	
-	public PeerThread(int port) {
+	public PeerThread(int port, String folder) {
 		this.port = port;
+		this.originFolder = folder;
 	}
 	
 	
@@ -54,7 +57,7 @@ public class PeerThread extends Thread {
 					
 					//System.out.println("Connection incoming ...");
 
-					PeerServerProtocol.protocol(writer, reader, toNetwork);
+					PeerServerProtocol.protocol(writer, reader, toNetwork, originFolder);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {

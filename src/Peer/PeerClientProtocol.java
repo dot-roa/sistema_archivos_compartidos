@@ -49,12 +49,15 @@ public class PeerClientProtocol {
 
 		try {
 			clientSideSocket = new Socket(server, transferRequestingPort);
-			file = download_folder+File.separator +file;
 
 			createStreams(); // Crea los streams con el peer que tiene el archivo
+			fileTransferWriter.writeObject(file);
 
-			String sizeString = (String) fileTransferReader.readObject();
-			long size = Long.parseLong(sizeString.split(":")[1]);
+			file = download_folder+File.separator +file;
+			toFile = new BufferedOutputStream(new FileOutputStream(file));
+
+
+			long size = (long) fileTransferReader.readObject();
 			// se recibe el archivo en bloques de 512 bytes
 			byte[] receivedData = new byte[512];
 			int in;
@@ -70,9 +73,13 @@ public class PeerClientProtocol {
 			fileTransferWriter.close();
 			fromNetwork.close();
 
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("No se pudo Establecer Conexión con el Peer");
+			System.out.println("No se pudo Establecer Conexión con el Peer ");
+		}
+		catch(IOException e){
+			e.printStackTrace();
+			System.out.println("Fallo en la Transmisión");
 		}
 
 
@@ -92,7 +99,6 @@ public class PeerClientProtocol {
 		fileTransferWriter = new ObjectOutputStream(clientSideSocket.getOutputStream());
 		fileTransferReader = new ObjectInputStream(clientSideSocket.getInputStream());
 		fromNetwork = new BufferedInputStream(clientSideSocket.getInputStream());
-		toFile = new BufferedOutputStream(new FileOutputStream(file));
 	}
 
 }

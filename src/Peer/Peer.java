@@ -14,8 +14,8 @@ public class Peer {
 	public static final int PORT = 3400;
 	public static final String SERVER = "localhost";
 	
-	public static final String SHARE_FOLDER = "compartida/peer1"; 
-	public static final String DOWNLOAD_FOLDER = "descargado/peer1";
+	public static final String SHARE_FOLDER = "Origen/peer1";
+	public static final String DOWNLOAD_FOLDER = "Destino/peer1";
 	
 	private int transferListeningPort;
 	private int transferRequestingPort;
@@ -41,12 +41,12 @@ public class Peer {
 			
 			createStreams();
 
-			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader);
+			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader, SHARE_FOLDER);
 
 			peerSideSocket.close();
 
 
-			peerThread = new PeerThread(transferListeningPort);
+			peerThread = new PeerThread(transferListeningPort, SHARE_FOLDER);
 			peerThread.start();
 			peerSideSocket.close();
 

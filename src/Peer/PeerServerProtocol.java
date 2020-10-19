@@ -14,14 +14,16 @@ import java.util.ArrayList;
 public class PeerServerProtocol {
 
 	public static void protocol(ObjectOutputStream output, 
-			ObjectInputStream input, BufferedOutputStream toNetwork) throws IOException, ClassNotFoundException {
+			ObjectInputStream input, BufferedOutputStream toNetwork, String originFolder) throws IOException, ClassNotFoundException {
 		
 		String fileName = (String) input.readObject();
 		System.out.println("Nombre del archivo solicitado: " + fileName);
 
-		File localFile = new File("Origen"+File.separator+fileName);
+		File localFile = new File(originFolder+File.separator+fileName);
 		BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(localFile));
 
+		output.writeObject(localFile.length());
+		output.flush();
 
 		byte[] byteArray = new byte[512];
 		int in;

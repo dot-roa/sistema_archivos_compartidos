@@ -13,14 +13,10 @@ import java.util.Scanner;
 
 public class PeerRegisterProtocol {
 
-	public static int protocol(ObjectOutputStream output, ObjectInputStream input)
+	public static int protocol(ObjectOutputStream output, ObjectInputStream input, String rutaCarpeta)
 			throws IOException, ClassNotFoundException {
 		
-		// Ruta donde se ubica la carpeta que contiene los archivos que van a ser compartidos
-		String rutaCarpeta = "Origen";
-		//System.out.print("Ingrese su nombre para ser registrado en el server: ");
-		//String message = new Scanner(System.in).nextLine();
-		
+
 		// Se envia el nombre del peer para ser registrado en el Server
 		output.writeObject("REGISTER");
 		output.flush();

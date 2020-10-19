@@ -38,8 +38,8 @@ public class Peer2 {
 //		try {
 //			peerSideSocket = new Socket(SERVER, PORT);
 			
-			peerThread = new PeerThread(3402);
-			peerThread.start();
+			//peerThread = new PeerThread(3402);
+			//peerThread.start();
 			
 //			
 //			System.out.print("Presione una letra para continuar: ");
