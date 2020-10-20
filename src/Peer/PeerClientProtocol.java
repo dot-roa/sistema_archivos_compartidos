@@ -56,14 +56,17 @@ public class PeerClientProtocol {
 			fileTransferWriter.writeObject(file);
 
 			file = download_folder+File.separator +file;
-			toFile = new BufferedOutputStream(new FileOutputStream(file));
+			
 
 
 			String msg = (String) fileTransferReader.readObject();
 			String key = msg.split(":")[0];
 
-			if(key.equals("404")) System.out.println(msg);
+			if(key.equals("404")) {
+				System.out.println(msg);
+				return false;		}
 			else {
+				toFile = new BufferedOutputStream(new FileOutputStream(file));
 				long size = Long.parseLong(msg.split(":")[1]);
 				// se recibe el archivo en bloques de 512 bytes
 				byte[] receivedData = new byte[512];
