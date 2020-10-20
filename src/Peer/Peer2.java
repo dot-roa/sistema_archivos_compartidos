@@ -6,17 +6,16 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Peer {
-	
+public class Peer2 {
+
 	public static final int PORT = 3400;
 	public static final String SERVER = "localhost";
-	
-	public static final String SHARE_FOLDER = "Compartida/peer1";
-	public static final String DOWNLOAD_FOLDER = "Descargas/peer1";
-	
+
+	public static final String SHARE_FOLDER = "Compartida/peer2";
+	public static final String DOWNLOAD_FOLDER = "Descargas/peer2";
+
 	private int transferListeningPort;
 	private int transferRequestingPort;
 
@@ -30,10 +29,10 @@ public class Peer {
 
 	private PeerThread peerThread;
 	//private PeerThread peerThread;
-	
-	
+
+
 	// Metodo constructor.
-	public Peer() throws ClassNotFoundException {
+	public Peer2() throws ClassNotFoundException {
 		System.out.println("PEER CONNECTION ...");
 
 		try {
@@ -122,7 +121,7 @@ public class Peer {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String args[]) throws ClassNotFoundException {
-		new Peer();
+		new Peer2();
 	}
 	
 }

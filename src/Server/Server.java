@@ -1,7 +1,5 @@
 package Server;
 
-import eco.ServerSideProtocol;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -12,7 +10,7 @@ import java.util.HashMap;
 public class Server {
 
     public static final int PORT = 3400;
-    public static int currPort = 2000;
+    public static int currPort = 2001;
 
     private ObjectOutputStream writer;
     private ObjectInputStream reader;
@@ -20,12 +18,17 @@ public class Server {
     private ServerSocket listener;
 
     private HashMap<String, ArrayList<String>> index;
+    private HashMap<String, Integer> solicitudesPorCliente;
+    private HashMap<String, Integer> solicitudesPorTipoArchivo;
+    private Integer solicitudesNoResueltas;
 
     // Metodo constructor.
     public Server() {
         System.out.println("SERVIDOR INDICE ...");
         index = new HashMap<String, ArrayList<String>>();
-
+        solicitudesPorCliente = new HashMap<String, Integer>();
+        solicitudesPorTipoArchivo = new HashMap<String, Integer>();
+        solicitudesNoResueltas = 0;
         try {
 
             listener = new ServerSocket(PORT);
@@ -41,17 +44,28 @@ public class Server {
                     createStreams();
                     String protocol = reader.readObject().toString();
 
-                    if(protocol.equals("REQUEST")){                                             // PROTOCOLO DE INDICE
+                    if(protocol.equals("REQUEST")){ // PROTOCOLO DE INDICE
                         System.out.println("Solicitud de indice desde:"+peerIp);
                         String file = reader.readObject().toString();
-                        ServerRequestProtocol.findMatchedPeers(index, writer, file,2);
+
+                        int numberPeers = (int) reader.readObject();
+                        System.out.println("El numero de peer a buscar se fijo a: " + numberPeers);
+                        ServerRequestProtocol.findMatchedPeers(index, writer, file, numberPeers, solicitudesNoResueltas);
+                        addSolicitudPorCliente(peerIp);
+                        addSolicitudPorTipoArchivo(file);
                     }
                     else if(protocol.equals("REGISTER")){                                       //PROTOCOLO DE REGISTRO
+                        addSolicitudPorCliente(peerIp);
                         writer.writeObject("REGISTRANDO ARCHIVOS");
                         ArrayList<String> files = (ArrayList<String>) reader.readObject();
                         ServerRegisterProtocol.register(index, files, writer, peerIp, getCurrPort());
                         System.out.println("FIN DE REGISTRO");
                         System.out.println("Quedan:"+index.toString());
+                    }
+                    else if(protocol.equals("STATS")){
+                        writer.writeObject(solicitudesPorCliente);
+                        writer.writeObject(solicitudesPorTipoArchivo);
+                        writer.writeObject(solicitudesNoResueltas);
                     }
 
                 } catch (IOException | ClassNotFoundException e) {
@@ -75,6 +89,31 @@ public class Server {
             catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void addSolicitudPorTipoArchivo(String file) {
+        System.out.println("FILEEEE "+file);
+        String ext = file.split("\\.")[1];
+
+        if(solicitudesPorTipoArchivo.get(ext) == null){
+            solicitudesPorTipoArchivo.put(ext,1);
+        }
+        else
+        {
+            int solicitudes = solicitudesPorTipoArchivo.get(ext) + 1;
+            solicitudesPorTipoArchivo.replace(ext,solicitudes);
+        }
+    }
+
+    private void addSolicitudPorCliente(String peerIp) {
+        if(solicitudesPorCliente.get(peerIp) == null){
+            solicitudesPorCliente.put(peerIp,1);
+        }
+        else
+        {
+            int solicitudes = solicitudesPorCliente.get(peerIp) + 1;
+            solicitudesPorCliente.replace(peerIp,solicitudes);
         }
     }
 

@@ -8,29 +8,30 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ServerRequestProtocol {
-    public static void findMatchedPeers(HashMap<String,ArrayList<String>> index, ObjectOutputStream writer,
-                                        String file, int npeers) throws IOException {
+    public static void findMatchedPeers(HashMap<String, ArrayList<String>> index, ObjectOutputStream writer,
+                                        String file, int npeers, Integer solicitudesNoResueltas) throws IOException {
         System.out.println("Solicitando: "+file);
 
         List<String> lista = index.get(file); //Cast del Arraylist a Lista
-        System.out.println("Lo tienen: "+lista.toString());
 
-        ArrayList<String> matchedPeers = null;
-        if (lista.size() > npeers){
-            matchedPeers = new ArrayList<>(lista.subList(0,npeers)); //SubLista (inicio,fin)
-            //System.out.println("Encontrados en sublista:"+matchedPeers);
-        }
-        else{
-            matchedPeers = new ArrayList<>(lista);
-        }
-        //System.out.println("PeersEncontrados:"+matchedPeers);
+        if(lista !=  null){
+            ArrayList<String> matchedPeers = null;
+            if (lista.size() > npeers){
+                System.out.println("Lo tienen: "+lista.toString());
+                matchedPeers = new ArrayList<>(lista.subList(0,npeers)); //SubLista (inicio,fin)
+                //System.out.println("Encontrados en sublista:"+matchedPeers);
+            }
+            else {
+                matchedPeers = new ArrayList<>(lista);
+            }
 
-        if (matchedPeers == null){
-            sendMessage(writer, new ArrayList<String>() {{add("NO EXISTE EL ARCHIVO");}});
-        }
-        else{
             sendMessage(writer, matchedPeers);
         }
+        else{
+            sendMessage(writer, new ArrayList<String>() {{add("NO EXISTE EL ARCHIVO");}});
+            solicitudesNoResueltas++;
+        }
+        //System.out.println("PeersEncontrados:"+matchedPeers)
     }
 
     private static void sendMessage(ObjectOutputStream writer, Object msg) throws IOException {

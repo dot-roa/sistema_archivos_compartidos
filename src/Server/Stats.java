@@ -35,16 +35,16 @@ public class Stats {
 			// Cantidad de peticiones fallidas
 			Object obj3 = (int) reader.readObject();
 			
+			System.out.println("Cantidad de veces que un cliente a realizado una solicitud");
 			for (Entry<String, Integer> entry : obj1.entrySet()) {
-				System.out.println("Cantidad de veces que un cliente a realizado una solicitud");
-			    System.out.println("IP del Cliente: " + entry.getKey() + "Cantidad de peticiones: " + entry.getValue());
+			    System.out.println("IP del Cliente: " + entry.getKey() + ", Cantidad de peticiones: " + entry.getValue());
 			}
-			
+			System.out.println();
+			System.out.println("Cantidad de veces que se ha solicitado un tipo de archivo");
 			for (Entry<String, Integer> entry : obj2.entrySet()) {
-				System.out.println("Cantidad de veces que se ha solicitado un tipo de archivo");
-			    System.out.println("Tipo de archivo: " + entry.getKey() + "Cantidad de solicitudes: " + entry.getValue());
+			    System.out.println("Tipo de archivo: " + entry.getKey() + ", Cantidad de solicitudes: " + entry.getValue());
 			}
-			
+			System.out.println();
 			System.out.println("Cantidad de solicitudes que NO se pudieron atender: " + obj3);
 		
 		} catch (Exception e) {
