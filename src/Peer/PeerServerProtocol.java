@@ -25,6 +25,7 @@ public class PeerServerProtocol {
 			output.writeObject("LENGTH:"+localFile.length());
 			output.flush();
 
+
 			byte[] byteArray = new byte[512];
 			int in;
 			while ((in = fromFile.read(byteArray)) != -1) {
