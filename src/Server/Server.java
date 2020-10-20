@@ -47,22 +47,25 @@ public class Server {
                     if(protocol.equals("REQUEST")){ // PROTOCOLO DE INDICE
                         System.out.println("Solicitud de indice desde:"+peerIp);
                         String file = reader.readObject().toString();
-
                         int numberPeers = (int) reader.readObject();
                         System.out.println("El numero de peer a buscar se fijo a: " + numberPeers);
                         ServerRequestProtocol.findMatchedPeers(index, writer, file, numberPeers, solicitudesNoResueltas);
-                        addSolicitudPorCliente(peerIp);
+                        String name = (String) reader.readObject();
+                        addSolicitudPorCliente(String.format("%s [%s]", peerIp, name ));
                         addSolicitudPorTipoArchivo(file);
                     }
                     else if(protocol.equals("REGISTER")){                                       //PROTOCOLO DE REGISTRO
-                        addSolicitudPorCliente(peerIp);
                         writer.writeObject("REGISTRANDO ARCHIVOS");
                         ArrayList<String> files = (ArrayList<String>) reader.readObject();
                         ServerRegisterProtocol.register(index, files, writer, peerIp, getCurrPort());
                         System.out.println("FIN DE REGISTRO");
                         System.out.println("Quedan:"+index.toString());
+                        String name = (String) reader.readObject();
+                        addSolicitudPorCliente(String.format("%s [%s]", peerIp, name ));
+
                     }
                     else if(protocol.equals("STATS")){
+                        //System.out.println("LMPPASD: "+solicitudesPorCliente.toString());
                         writer.writeObject(solicitudesPorCliente);
                         writer.writeObject(solicitudesPorTipoArchivo);
                         writer.writeObject(solicitudesNoResueltas);
@@ -93,7 +96,6 @@ public class Server {
     }
 
     private void addSolicitudPorTipoArchivo(String file) {
-        System.out.println("FILEEEE "+file);
         String ext = file.split("\\.")[1];
 
         if(solicitudesPorTipoArchivo.get(ext) == null){

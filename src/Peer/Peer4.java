@@ -12,6 +12,7 @@ public class Peer4 {
 
 	public static final int PORT = 3400;
 	public static final String SERVER = "localhost";
+	public static String peerName = "";
 
 	public static final String SHARE_FOLDER = "Compartida/peer4";
 	public static final String DOWNLOAD_FOLDER = "Descargas/peer4";
@@ -37,14 +38,14 @@ public class Peer4 {
 
 		try {
 			System.out.print("Ingrese su nombre: ");
-			String peerName = new Scanner(System.in).nextLine();
+			peerName = new Scanner(System.in).nextLine();
 			System.out.println(String.format("BIENVENIDO %s",peerName.toUpperCase()));
 
 			peerSideSocket = new Socket(SERVER, PORT);
 			
 			createStreams();
 
-			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader, SHARE_FOLDER);
+			transferListeningPort = PeerRegisterProtocol.protocol(writer, reader, SHARE_FOLDER, peerName);
 
 			peerSideSocket.close();
 
@@ -64,7 +65,7 @@ public class Peer4 {
 				peerSideSocket = new Socket(SERVER, PORT);
 				createStreams();
 
-				PeerClientProtocol.protocol(writer, reader, reqFile, numPeers, DOWNLOAD_FOLDER);
+				PeerClientProtocol.protocol(writer, reader, reqFile, numPeers, DOWNLOAD_FOLDER, peerName);
 
 			}
 

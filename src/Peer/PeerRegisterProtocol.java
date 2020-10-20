@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class PeerRegisterProtocol {
 
-	public static int protocol(ObjectOutputStream output, ObjectInputStream input, String rutaCarpeta)
+	public static int protocol(ObjectOutputStream output, ObjectInputStream input, String rutaCarpeta, String peerName)
 			throws IOException, ClassNotFoundException {
 		
 
@@ -39,6 +39,7 @@ public class PeerRegisterProtocol {
 		
 		// Se envia un ArrayList<String> con los nombre de los archivos contenidos en el directorio 
 		output.writeObject(files);
+		output.writeObject(peerName);
 		output.flush();
 		
 		// Se espera el retorno del puerto asignado por el Server

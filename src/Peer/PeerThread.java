@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PeerThread extends Thread {
@@ -24,7 +26,10 @@ public class PeerThread extends Thread {
 	private BufferedOutputStream toNetwork;
 
 	private String originFolder;
-	
+	private ArrayList<String> solicitudes;
+
+
+
 	public PeerThread(int port, String folder) {
 		this.port = port;
 		this.originFolder = folder;
@@ -54,8 +59,6 @@ public class PeerThread extends Thread {
 
 				try {
 					createStreams();
-					
-					//System.out.println("Connection incoming ...");
 
 					PeerServerProtocol.protocol(writer, reader, toNetwork, originFolder);
 				} catch (IOException e) {
